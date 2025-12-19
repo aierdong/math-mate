@@ -12,7 +12,7 @@ $ARGUMENTS
 
 ## 概要
 
-1. 从仓库根目录运行 `.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks` 并解析 FEATURE_DIR 和 AVAILABLE_DOCS 列表. 所有路径必须是绝对路径. 对于参数中的单引号如 "I'm Groot", 使用转义语法: 例如 'I'\''m Groot'(或尽可能使用双引号: "I'm Groot").
+1. 从仓库根目录运行 `.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks` 并解析 FEATURE_DIR 和 AVAILABLE_DOCS 列表. 所有路径必须是绝对路径. 对于参数中的单引号如 "I'm Groot", 使用转义语法: 例如 'I'''m Groot'(或尽可能使用双引号: "I'm Groot").
 
 2. **检查清单状态**(如果 FEATURE_DIR/checklists/ 存在): 
    - 扫描 checklists/ 目录中的所有清单文件
@@ -46,6 +46,15 @@ $ARGUMENTS
 3. 加载和分析实施上下文: 
    - **必需**: 读取 tasks.md 获取完整任务列表和执行计划
    - **必需**: 读取 plan.md 获取技术栈、架构和文件结构
+   - **必需**: 读取编码规范文档作为代码质量标准:
+     - **前端任务**: 读取 `.specify/memory/frontend-coding-standards.md`
+       - 遵循 Vue 3 + TypeScript 编码规范
+       - 遵循文件组织、命名、样式等规范
+       - 遵循 API 调用、状态管理、错误处理等规范
+     - **后端任务**: 读取 `.specify/memory/backend-coding-standards.md`
+       - 遵循 Go 语言编码规范
+       - 遵循项目结构、命名、错误处理等规范
+       - 遵循数据库、API 设计、测试等规范
    - **如果存在**: 读取 data-model.md 获取实体和关系
    - **如果存在**: 读取 contracts/ 获取 API 规范和测试要求
    - **如果存在**: 读取 research.md 获取技术决策和约束
@@ -77,7 +86,7 @@ $ARGUMENTS
    - **C#/.NET**: `bin/`, `obj/`, `*.user`, `*.suo`, `packages/`
    - **Go**: `*.exe`, `*.test`, `vendor/`, `*.out`
    - **Ruby**: `.bundle/`, `log/`, `tmp/`, `*.gem`, `vendor/bundle/`
-   - **PHP**: `vendor/`, `*.log`, `*.cache`, `*.env`
+   - **PHP**: `vendor/`, `*..log`, `*.cache`, `*.env`
    - **Rust**: `target/`, `debug/`, `release/`, `*.rs.bk`, `*.rlib`, `*.prof*`, `.idea/`, `*.log`, `.env*`
    - **Kotlin**: `build/`, `out/`, `.gradle/`, `.idea/`, `*.class`, `*.jar`, `*.iml`, `*.log`, `.env*`
    - **C++**: `build/`, `bin/`, `obj/`, `out/`, `*.o`, `*.so`, `*.a`, `*.exe`, `*.dll`, `.idea/`, `*.log`, `.env*`
@@ -110,6 +119,13 @@ $ARGUMENTS
    - **首先设置**: 初始化项目结构、依赖、配置
    - **代码前测试**: 如果需要为合约、实体和集成场景编写测试
    - **核心开发**: 实施模型、服务、CLI 命令、端点
+     - **必须遵循编码规范**: 所有代码必须符合相应的编码规范文档
+     - **前端代码**: 遵循 `.specify/memory/frontend-coding-standards.md`
+       - 使用 Composition API、正确的文件组织、命名规范
+       - 遵循 TypeScript 类型定义、组件结构、样式规范
+     - **后端代码**: 遵循 `.specify/memory/backend-coding-standards.md`
+       - 使用 Go 标准代码风格、项目结构、命名规范
+       - 遵循错误处理、数据库操作、API 设计规范
    - **集成工作**: 数据库连接、中间件、日志、外部服务
    - **完善和验证**: 单元测试、性能优化、文档
 
@@ -126,6 +142,9 @@ $ARGUMENTS
    - 检查实施的功能是否与原始规范匹配
    - 验证测试通过且覆盖率满足要求
    - 确认实施遵循技术计划
+   - **验证编码规范**: 检查代码是否符合编码规范要求
+     - 前端代码是否符合 `.specify/memory/frontend-coding-standards.md`
+     - 后端代码是否符合 `.specify/memory/backend-coding-standards.md`
    - 报告最终状态并附上已完成工作的摘要
 
 注意: 此命令假设 tasks.md 中存在完整的任务分解. 如果任务不完整或缺失, 建议首先运行 `/tasks` 重新生成任务列表.
