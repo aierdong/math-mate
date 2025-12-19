@@ -23,10 +23,19 @@ $ARGUMENTS
 
 1. **设置**: 从仓库根目录运行 `.specify/scripts/powershell/setup-plan.ps1 -Json` 并解析 JSON 获取 FEATURE_SPEC、IMPL_PLAN、SPECS_DIR、BRANCH. 对于参数中的单引号如 "I'm Groot", 使用转义语法: 例如 'I'\''m Groot'(或尽可能使用双引号: "I'm Groot").
 
-2. **加载上下文**: 读取 FEATURE_SPEC 和 `.specify/memory/constitution.md`. 加载 IMPL_PLAN 模板(已复制).
+2. **加载上下文**: 读取以下文档:
+   - FEATURE_SPEC (功能规范)
+   - `.specify/memory/constitution.md` (项目章程)
+   - `.specify/memory/tech-stack.md` (技术栈文档) - **必须加载**, 用于填充技术上下文
+   - `.specify/memory/project-description.md` (项目描述, 可选)
+   加载 IMPL_PLAN 模板(已复制).
 
 3. **执行计划工作流**: 按照 IMPL_PLAN 模板中的结构: 
-   - 填充技术上下文(将未知项标记为 NEEDS CLARIFICATION)
+   - **填充技术上下文**: 
+     - **必须参考** `.specify/memory/tech-stack.md` 中定义的技术栈
+     - 从技术栈文档提取: 前端框架、后端框架、数据库、构建工具、测试框架等
+     - 如果技术栈文档中未涵盖的技术需求, 将未知项标记为 NEEDS CLARIFICATION
+     - 确保所有技术选择与已定义的技术栈一致
    - 从章程文档填充章程检查部分
    - 评估关卡(如果违规无正当理由则报错)
    - 阶段 0: 生成 research.md(解决所有 NEEDS CLARIFICATION)
