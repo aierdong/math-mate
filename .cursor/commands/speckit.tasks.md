@@ -21,7 +21,7 @@ $ARGUMENTS
 
 ## 概述
 
-1. **设置**: 从仓库根目录运行 `.specify/scripts/powershell/check-prerequisites.ps1 -Json` 并解析 FEATURE_DIR 和 AVAILABLE_DOCS 列表. 所有路径必须是绝对路径. 对于参数值中的单引号如 "I'm Groot", 使用转义语法: 例如 'I'\''m Groot'(或尽可能使用双引号: "I'm Groot").
+1. **设置**: 从仓库根目录运行 `.specify/scripts/powershell/check-prerequisites.ps1 -Json` 并解析 FEATURE_DIR 和 AVAILABLE_DOCS 列表. 所有路径必须是绝对路径. 对于参数值中的单引号如 "I'm Groot", 使用转义语法: 例如 'I'''m Groot'(或尽可能使用双引号: "I'm Groot").
 
 2. **加载设计文档**: 从 FEATURE_DIR 读取: 
    - **必需**: plan.md(技术栈、库、结构), spec.md(带优先级的用户故事)
@@ -32,6 +32,16 @@ $ARGUMENTS
    - 确保所有任务使用的技术栈与文档定义一致
    - 任务中的技术选择(框架、库、工具)必须符合技术栈文档
    - 如果任务需要新技术, 必须先在技术栈文档中更新或标记为需要澄清
+   
+   **同时加载编码规范文档**: 读取编码规范作为代码质量标准:
+   - **前端任务**: 必须参考 `.specify/memory/frontend-coding-standards.md`
+     - 遵循 Vue 3 + TypeScript 编码规范
+     - 遵循文件组织、命名、样式等规范
+     - 遵循 API 调用、状态管理、错误处理等规范
+   - **后端任务**: 必须参考 `.specify/memory/backend-coding-standards.md`
+     - 遵循 Go 语言编码规范
+     - 遵循项目结构、命名、错误处理等规范
+     - 遵循数据库、API 设计、测试等规范
 
 3. **执行任务生成工作流**:
    - 加载 plan.md 并提取技术栈、库、项目结构
@@ -84,6 +94,17 @@ tasks.md 应该立即可执行 - 每个任务必须足够具体, 以便 LLM 可�
    - 后端任务使用 Golang + SQLite + Eino
    - 构建工具、测试框架等必须与技术栈文档一致
    - 文件路径和项目结构遵循技术栈文档中的约定
+
+**编码规范一致性**: 所有任务必须遵循相应的编码规范:
+   - **前端任务**: 必须遵循 `.specify/memory/frontend-coding-standards.md`
+     - 代码风格、TypeScript 规范、Vue 3 组件规范
+     - 文件组织、命名规范、样式规范
+     - API 调用、状态管理、错误处理规范
+   - **后端任务**: 必须遵循 `.specify/memory/backend-coding-standards.md`
+     - Go 语言规范、项目结构规范、命名规范
+     - 错误处理、数据库规范、API 设计规范
+     - Eino Agent 规范、测试规范、日志规范
+   - 任务描述中应明确说明需要遵循的编码规范要求
 
 **测试是可选的**: 仅当在功能规范中明确请求测试或用户请求 TDD 方法时才生成测试任务.
 
@@ -148,7 +169,7 @@ tasks.md 应该立即可执行 - 每个任务必须足够具体, 以便 LLM 可�
 
 - **阶段 1**: 设置(项目初始化)
 - **阶段 2**: 基础(阻塞先决条件 - 必须在用户故事之前完成)
-- **阶段 3+**: 按优先级顺序的用户故事(P1、P2、P3...)
+- **阶段 3+**: 按优先级顺序的用户故事(P1、P2、PP3...)
   - 每个故事内: 测试(如果请求)→ 模型 → 服务 → 端点 → 集成
   - 每个阶段应该是一个完整的、可独立测试的增量
 - **最终阶段**: 完善与横切关注点

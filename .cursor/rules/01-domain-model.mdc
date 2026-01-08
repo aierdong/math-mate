@@ -1,7 +1,0 @@
----
-alwaysApply: false
----
-# 领域模型规则
-
-## 核心领域实体
-参考详细文档: `.specify/memory/architecture/domain-model.md`
